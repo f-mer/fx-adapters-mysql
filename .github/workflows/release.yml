@@ -1,0 +1,17 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: GoogleCloudPlatform/release-please-action@v2
+      with:
+        release-type: ruby
+        package-name: fx-adapters-mysql
+        bump-minor-pre-major: true
+        version-file: lib/fx/adapters/mysql/version.rb

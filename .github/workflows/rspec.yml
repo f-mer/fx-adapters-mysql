@@ -1,0 +1,30 @@
+name: RSpec
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: mysql2://root:root@localhost/dummy_test
+
+    strategy:
+      matrix:
+        ruby: [3.0]
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+    - name: Start MySQL
+      run: sudo systemctl start mysql.service
+    - name: Run RSpec
+      run: bundle exec rake
