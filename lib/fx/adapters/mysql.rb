@@ -15,7 +15,7 @@ module Fx
     #
     # @example
     #  Fx.configure do |config|
-    #    config.adapter = Fx::Adapters::MySQL.new
+    #    config.database = Fx::Adapters::MySQL.new
     #  end
     class MySQL
       # Creates an instance of the F(x) MySQL adapter.
@@ -29,7 +29,7 @@ module Fx
       #
       # @example
       #  Fx.configure do |config|
-      #    config.adapter = Fx::Adapters::MySQL.new
+      #    config.database = Fx::Adapters::MySQL.new
       #  end
       def initialize(connectable = ActiveRecord::Base)
         @connectable = connectable
