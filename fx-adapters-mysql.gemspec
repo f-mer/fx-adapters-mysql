@@ -22,8 +22,11 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_development_dependency "byebug"
   spec.add_development_dependency "mysql2"
+  spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec", "~> 3.0"
   spec.add_development_dependency "standard"
 
-  spec.add_dependency "fx", "~> 0.6.2 "
+  spec.add_dependency "fx", "~> 0.7.0 "
 end
