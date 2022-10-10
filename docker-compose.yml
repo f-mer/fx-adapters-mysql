@@ -1,0 +1,39 @@
+version: '3'
+services:
+  test:
+    command: /bin/bash -c 'bin/setup; bin/rake'
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        RUBY_VERSION: 3.1.2
+        DEBIAN_CODENAME: bullseye
+        UID: 1000
+        GID: 1000
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: "mysql2://fx_mysql_user:fx_mysql_password@fxmysql/dummy_test?local_infile=true"
+    volumes:
+      - .:/app:delegated
+    stdin_open: true
+    tty: true
+    depends_on:
+      fxmysql:
+        condition: service_healthy
+  fxmysql:
+    image: mysql:5.7.39-debian
+    environment:
+      MYSQL_ROOT_PASSWORD: fx_mysql_password
+      MYSQL_DATABASE: dummy_test
+      MYSQL_USER: fx_mysql_user
+      MYSQL_PASSWORD: fx_mysql_password
+      MYSQL_INITDB_SKIP_TZINFO: 'true'
+    healthcheck:
+      test: ["CMD", "/usr/bin/mysql", "--user", "root", "--password=fx_mysql_password", "-e", "select 1", "dummy_test"]
+      interval: 1s
+      timeout: 2s
+      retries: 120
+    ports:
+      - 3306:3306
+    tmpfs:
+      - /var/lib/mysql
