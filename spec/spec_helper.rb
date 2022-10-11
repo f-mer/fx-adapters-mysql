@@ -21,6 +21,8 @@ RSpec.configure do |config|
     c.syntax = :expect
   end
 
+  config.order = "random"
+
   config.before(:each) do
     ActiveRecord::Base.connection.execute "DROP DATABASE IF EXISTS dummy_test"
     ActiveRecord::Base.connection.execute "CREATE DATABASE dummy_test"
