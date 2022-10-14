@@ -81,6 +81,36 @@ RSpec.describe Fx::Adapters::MySQL do
     end
   end
 
+  describe "#drop_trigger" do
+    after { connection.execute "DROP TABLE users;" }
+
+    it "successfully drops a trigger" do
+      connection.execute <<-EOS
+        CREATE TABLE users (
+            id int PRIMARY KEY,
+            name varchar(256),
+            upper_name varchar(256)
+        );
+      EOS
+      adapter.create_function <<-EOS
+        CREATE FUNCTION uppercase_users_name (s CHAR)
+        RETURNS CHAR DETERMINISTIC
+        RETURN UPPER(s);
+      EOS
+      adapter.create_trigger(
+        <<-EOS
+          CREATE TRIGGER uppercase_users_name
+              BEFORE INSERT ON users
+              FOR EACH ROW
+              SET NEW.name = uppercase_users_name(NEW.name);
+        EOS
+      )
+      adapter.drop_trigger(:uppercase_users_name)
+
+      expect(adapter.triggers.map(&:name)).not_to include("uppercase_users_name")
+    end
+  end
+
   describe "#functions" do
     it "finds functions and builds Fx::Function objects" do
       adapter.create_function(

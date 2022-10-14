@@ -129,11 +129,11 @@ module Fx
       # {Fx::Statements::Trigger#drop_trigger}.
       #
       # @param name The name of the trigger to drop
-      # @param on The associated table for the trigger to drop
+      # @param on Unused in the MySQL adapter. Defaults to `nil` to support method signature.
       #
       # @return [void]
-      def drop_trigger(name, on:)
-        execute "DROP TRIGGER #{name} ON #{on};"
+      def drop_trigger(name, on: nil)
+        execute "DROP TRIGGER #{name};"
       end
 
       private
