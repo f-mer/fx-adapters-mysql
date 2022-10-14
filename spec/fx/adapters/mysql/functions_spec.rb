@@ -17,7 +17,7 @@ RSpec.describe Fx::Adapters::MySQL::Functions do
       expect(first.name).to eq "test"
       expect(first.definition).to eq <<-EOS.strip_heredoc.chomp
         DELIMITER $$
-        CREATE FUNCTION `test`() RETURNS text CHARSET utf8mb4
+        CREATE FUNCTION `test`() RETURNS text CHARSET #{connection.charset}
             DETERMINISTIC
         RETURN 'test'$$
         DELIMITER ;
