@@ -4,24 +4,24 @@ RSpec.describe Fx::Adapters::MySQL::Triggers do
   describe ".all" do
     it "returns `Trigger` objects" do
       connection = ActiveRecord::Base.connection
-      connection.execute <<-EOS.strip_heredoc
+      connection.execute <<-SQL.strip_heredoc
         CREATE TABLE users (
             id int PRIMARY KEY,
             name varchar(256),
             upper_name varchar(256)
         );
-      EOS
-      connection.execute <<-EOS.strip_heredoc
+      SQL
+      connection.execute <<-SQL.strip_heredoc
         CREATE FUNCTION uppercase_users_name (s CHAR)
         RETURNS CHAR DETERMINISTIC
         RETURN UPPER(s);
-      EOS
-      connection.execute <<-EOS.strip_heredoc
+      SQL
+      connection.execute <<-SQL.strip_heredoc
         CREATE TRIGGER uppercase_users_name
             BEFORE INSERT ON users
             FOR EACH ROW
             SET NEW.name = uppercase_users_name(NEW.name);
-      EOS
+      SQL
 
       triggers = described_class.new(connection).all
 
