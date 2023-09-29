@@ -7,11 +7,11 @@ RSpec.describe Fx::Adapters::MySQL do
   describe "#create_function" do
     it "successfully creates a function" do
       adapter.create_function(
-        <<-EOS
+        <<-SQL
           CREATE FUNCTION test ()
           RETURNS TEXT DETERMINISTIC
           RETURN 'test';
-        EOS
+        SQL
       )
 
       expect(adapter.functions.map(&:name)).to include("test")
@@ -22,25 +22,25 @@ RSpec.describe Fx::Adapters::MySQL do
     after { connection.execute "DROP TABLE users;" }
 
     it "successfully creates a trigger" do
-      connection.execute <<-EOS
+      connection.execute <<-SQL
         CREATE TABLE users (
             id int PRIMARY KEY,
             name varchar(256),
             upper_name varchar(256)
         );
-      EOS
-      adapter.create_function <<-EOS
+      SQL
+      adapter.create_function <<-SQL
         CREATE FUNCTION uppercase_users_name (s CHAR)
         RETURNS CHAR DETERMINISTIC
         RETURN UPPER(s);
-      EOS
+      SQL
       adapter.create_trigger(
-        <<-EOS
+        <<-SQL
           CREATE TRIGGER uppercase_users_name
               BEFORE INSERT ON users
               FOR EACH ROW
               SET NEW.name = uppercase_users_name(NEW.name);
-        EOS
+        SQL
       )
 
       expect(adapter.triggers.map(&:name)).to include("uppercase_users_name")
@@ -51,11 +51,11 @@ RSpec.describe Fx::Adapters::MySQL do
     context "when the function has arguments" do
       it "successfully drops a function with the entire function signature" do
         adapter.create_function(
-          <<-EOS
+          <<-SQL
             CREATE FUNCTION adder (x INT, y INT)
             RETURNS INT DETERMINISTIC
             RETURN x + y;
-          EOS
+          SQL
         )
 
         adapter.drop_function(:adder)
@@ -67,11 +67,11 @@ RSpec.describe Fx::Adapters::MySQL do
     context "when the function does not have arguments" do
       it "successfully drops a function" do
         adapter.create_function(
-          <<-EOS
+          <<-SQL
             CREATE FUNCTION test()
             RETURNS TEXT DETERMINISTIC
             RETURN 'test';
-          EOS
+          SQL
         )
 
         adapter.drop_function(:test)
@@ -85,25 +85,25 @@ RSpec.describe Fx::Adapters::MySQL do
     after { connection.execute "DROP TABLE users;" }
 
     it "successfully drops a trigger" do
-      connection.execute <<-EOS
+      connection.execute <<-SQL
         CREATE TABLE users (
             id int PRIMARY KEY,
             name varchar(256),
             upper_name varchar(256)
         );
-      EOS
-      adapter.create_function <<-EOS
+      SQL
+      adapter.create_function <<-SQL
         CREATE FUNCTION uppercase_users_name (s CHAR)
         RETURNS CHAR DETERMINISTIC
         RETURN UPPER(s);
-      EOS
+      SQL
       adapter.create_trigger(
-        <<-EOS
+        <<-SQL
           CREATE TRIGGER uppercase_users_name
               BEFORE INSERT ON users
               FOR EACH ROW
               SET NEW.name = uppercase_users_name(NEW.name);
-        EOS
+        SQL
       )
       adapter.drop_trigger(:uppercase_users_name)
 
@@ -114,11 +114,11 @@ RSpec.describe Fx::Adapters::MySQL do
   describe "#functions" do
     it "finds functions and builds Fx::Function objects" do
       adapter.create_function(
-        <<-EOS
+        <<-SQL
           CREATE FUNCTION test ()
           RETURNS TEXT DETERMINISTIC
           RETURN 'test';
-        EOS
+        SQL
       )
 
       expect(adapter.functions.map(&:name)).to eq ["test"]
@@ -129,24 +129,24 @@ RSpec.describe Fx::Adapters::MySQL do
     after { connection.execute "DROP TABLE users;" }
 
     it "finds triggers and builds Fx::Trigger objects" do
-      connection.execute <<-EOS
+      connection.execute <<-SQL
         CREATE TABLE users (
             id int PRIMARY KEY,
             name varchar(256),
             upper_name varchar(256)
         );
-      EOS
-      adapter.create_function <<-EOS
+      SQL
+      adapter.create_function <<-SQL
         CREATE FUNCTION uppercase_users_name (s CHAR)
         RETURNS CHAR DETERMINISTIC
         RETURN UPPER(s);
-      EOS
-      sql_definition = <<-EOS
+      SQL
+      sql_definition = <<-SQL
         CREATE TRIGGER uppercase_users_name
             BEFORE INSERT ON users
             FOR EACH ROW
             SET NEW.name = uppercase_users_name(NEW.name);
-      EOS
+      SQL
       adapter.create_trigger(sql_definition)
 
       expect(adapter.triggers.map(&:name)).to eq ["uppercase_users_name"]
