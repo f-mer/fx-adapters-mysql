@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  ruby:
+    image: mcr.microsoft.com/devcontainers/ruby:3
+
+    volumes:
+      - ../..:/workspaces:cached
+
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
+
+    depends_on:
+      - mysql
+
+  mysql:
+    # Use the same version as provided by github runner image.
+    # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md#mysql
+    image: mysql:8.0.34
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
