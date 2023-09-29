@@ -34,6 +34,10 @@ After checking out the repo, run `bin/setup` to install dependencies. Then, run 
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
+### VS Code Remote Containers
+
+If you have [Visual Studio Code](https://code.visualstudio.com) and [Docker](https://www.docker.com) installed, you can use the [VS Code remote containers plugin](https://code.visualstudio.com/docs/remote/containers-tutorial). The plugin will read the [`.devcontainer`](https://github.com/f-mer/fx-adapters-mysql/tree/main/.devcontainer) configuration in the repository and build the Docker container locally
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/f-mer/fx-adapters-mysql.
