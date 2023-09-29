@@ -31,5 +31,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", ">= 3.0"
   spec.add_development_dependency "standard"
 
-  spec.add_dependency "fx", "~> 0.7.0"
+  spec.add_dependency "fx", "~> 0.7"
 end
