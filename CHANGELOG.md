@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.2.1](https://www.github.com/f-mer/fx-adapters-mysql/compare/v0.2.0...v0.2.1) (2023-09-29)
+
+
+### Bug Fixes
+
+* Relax fx version requirement ([#6](https://www.github.com/f-mer/fx-adapters-mysql/issues/6)) ([e5c5da8](https://www.github.com/f-mer/fx-adapters-mysql/commit/e5c5da8b6f54d1f1282231e0f5c2cdcd3d4af54e))
+
 ## [0.2.0](https://www.github.com/f-mer/fx-adapters-mysql/compare/v0.1.0...v0.2.0) (2022-10-14)
 
 
