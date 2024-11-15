@@ -16,11 +16,9 @@ RSpec.describe Fx::Adapters::MySQL::Functions do
       expect(functions.size).to eq 1
       expect(first.name).to eq "test"
       expect(first.definition).to eq <<-SQL.strip_heredoc.chomp
-        DELIMITER $$
         CREATE FUNCTION `test`() RETURNS text CHARSET #{connection.charset}
             DETERMINISTIC
-        RETURN 'test'$$
-        DELIMITER ;
+        RETURN 'test'
       SQL
     end
   end
