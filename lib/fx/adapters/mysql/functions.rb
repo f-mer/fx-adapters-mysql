@@ -40,7 +40,7 @@ module Fx
 
         def to_fx_function(result)
           name = result.fetch("name")
-          definition = "DELIMITER $$\n#{delete_definer(find_definition(name))}$$\nDELIMITER ;"
+          definition = delete_definer(find_definition(name))
           Fx::Function.new(
             "name" => name,
             "definition" => definition
