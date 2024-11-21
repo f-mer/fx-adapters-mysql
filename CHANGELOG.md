@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.2.2](https://www.github.com/f-mer/fx-adapters-mysql/compare/v0.2.1...v0.2.2) (2024-11-20)
+
+
+### Bug Fixes
+
+* Remove DELIMITER from function definition ([#10](https://www.github.com/f-mer/fx-adapters-mysql/issues/10)) ([7e49ffa](https://www.github.com/f-mer/fx-adapters-mysql/commit/7e49ffabeecafe37102c51100b821b75154eaaf2))
+
 ### [0.2.1](https://www.github.com/f-mer/fx-adapters-mysql/compare/v0.2.0...v0.2.1) (2023-09-29)
 
 
